@@ -1,0 +1,68 @@
+name: FitClub CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Запуск тестов
+        run: node tests/run-tests.js
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Проверка HTML
+        run: |
+          echo "Проверка структуры HTML..."
+          grep -q '<!DOCTYPE html>' app/index.html && echo "✅ DOCTYPE найден"
+          grep -q '<meta charset' app/index.html && echo "✅ Charset указан"
+          grep -q '<meta name="viewport"' app/index.html && echo "✅ Viewport указан"
+      - name: Проверка JS
+        run: |
+          echo "Проверка синтаксиса JS..."
+          node --check app/app.js && echo "✅ app.js — OK"
+          node --check app/data.js && echo "✅ data.js — OK"
+
+  docker:
+    needs: [test, lint]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Сборка Docker-образа
+        run: docker build -t fitclub:latest .
+      - name: Проверка запуска контейнера
+        run: |
+          docker run -d -p 8080:80 --name fitclub-test fitclub:latest
+          sleep 3
+          curl -f http://localhost:8080/ || exit 1
+          docker stop fitclub-test
+
+  deploy:
+    needs: [docker]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: app
+      - id: deployment
+        uses: actions/deploy-pages@v4
