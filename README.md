@@ -7,7 +7,6 @@
 [![CI/CD](https://github.com/valtureso788/Fitness/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/valtureso788/Fitness/actions)
 [![GitHub Pages](https://img.shields.io/badge/demo-live-brightgreen?logo=github)](https://valtureso788.github.io/Fitness/)
 [![Docker](https://img.shields.io/badge/docker-ready-blue?logo=docker)](https://hub.docker.com/)
-[![License](https://img.shields.io/badge/license-MIT-yellow)](LICENSE)
 
 **Полнофункциональное SPA-приложение** для управления фитнес-клубом с ролевой моделью доступа, онлайн-записью к тренерам, системой оплаты, интерактивным 3D-конструктором тела и автоматизированным CI/CD-пайплайном.
 
