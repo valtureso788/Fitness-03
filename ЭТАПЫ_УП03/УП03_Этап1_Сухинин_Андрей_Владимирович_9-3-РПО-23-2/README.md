@@ -46,5 +46,3 @@ npm run dev
 
 [Fitness‑03](https://github.com/valtureso788/Fitness-03)
 
----
-*Данный README создан автоматически для этапа 1 и может быть дополнен при необходимости.*
