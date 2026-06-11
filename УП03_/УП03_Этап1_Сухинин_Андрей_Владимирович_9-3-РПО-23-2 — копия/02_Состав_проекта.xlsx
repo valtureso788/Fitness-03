@@ -1,0 +1,8 @@
+File	Description
+README.md	Project description and launch instructions
+01_Входной_аудит_проекта.docx	Audit report template
+02_Состав_проекта.xlsx	List of project files and responsibilities (placeholder)
+03_Инструкция_запуска.md	Run instructions
+.env.example	Environment variables example
+04_Таблица_конфигурации.xlsx	Configuration table placeholder
+05_Журнал_проблем.xlsx	Problem log placeholder
